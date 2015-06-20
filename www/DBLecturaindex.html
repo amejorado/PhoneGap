@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  	<head>
+    	<title>Ejemplo de Almacenamiento</title>
+    	<script type="text/javascript" charset="utf-8" src="cordova.js"></script>
+	    <script type="text/javascript" charset="utf-8">
+		// Preparando el dispositivo
+	    document.addEventListener("deviceready", onDeviceReady, false);
+		// Dispositivo listo
+	    function onDeviceReady() {  
+	        var db = window.openDatabase("Base de Datos Prueba", "1.0", "Archivo Demo", 200000);
+	        db.transaction(poblandoDB, errorBD, exitoBD);
+	    }
+		// Poblando la base de datos
+	    function leerDB(tx) {
+	        tx.executeSql('SELECT * FROM DEMO ', [], verResultados, errorBD);
+	    }
+	    // mostrando resultados
+	    function verResultados(tx, resultados) {
+	    	var datos = ""
+	    	for (var i = 0; i < resultados.rows.length; i++) {
+	    		datos += "<li>";
+	    		datos += "<b> Registro </b> "; 
+	    		datos += resultados.rows.item(i).data;
+	    		datos += "</li>";
+	    	}
+	    	document.getElementById("datosBD").innerHTML = datos;
+	    }
+	    // Error en la transacción
+	    function errorBD(tx, err) {
+	        alert("Error en Base de Datos SQL: " + err);
+	    }
+		// Transacción exitosa
+	    function exitoBD() {
+	        alert("¡Transaccion realizada exitosamente!");
+	    }
+	    </script>
+  	</head>
+  <body>
+    <h1>Lectura de la Base de Datos</h1>
+    <ul id = "datosBD"> </ul>
+  </body>
+</html>

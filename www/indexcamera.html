@@ -1,0 +1,80 @@
+<html>
+  <head>
+    <title>Usando la Cámara</title>
+    <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
+    <script type="text/javascript" charset="utf-8">
+
+    var fuenteFoto;   // fuente de la fotografía
+    var tipoDestino;  // define el formato el valor retornado
+
+    // esperando dispositivo listo
+    document.addEventListener("deviceready", dispositivoListo, false);
+
+    // haciendo uso de la cámara
+    function dispositivoListo() {
+        fuenteFoto = navigator.camera.PictureSourceType;
+        tipoDestino = navigator.camera.DestinationType;
+    }
+
+    // Si se puede hacer la toma de la foto se llama este método
+    function exitoCamara(imageData) {
+      // manejando la imagen
+      var imagenChica = document.getElementById('smallImage');
+
+      // escondiendo los elementos de la imagen
+      imagenChica.style.display = 'block';
+
+      // Mostrando la foto tomada
+      // Se hace uso de CSS para cambiar de tamaño la imagen
+      imagenChica.src = "data:image/jpeg;base64," + imageData;
+    }
+
+    // Funcion llamada si se puede tomar la foto exitosamente
+    function exitoFotoURI(imageURI) {
+      // manejando la imagen
+      var largeImage = document.getElementById('largeImage');
+
+      // escondiendo los elementos de la imagen
+      largeImage.style.display = 'block';
+
+      // Mostrando la foto tomada
+      // Se hace uso de CSS para cambiar de tamaño la imagen
+      largeImage.src = imageURI;
+    }
+
+    // funcion llamada por un botón para tomar fotografía
+    function tomarFoto() {
+      // Tomar foto usando el dispostivo y recuperando imagen como string base 64
+      navigator.camera.getPicture(exitoCamara, errorCamara, 
+      		{ quality: 50, destinationType: tipoDestino.DATA_URL });
+    }
+
+    // Esta función sera utilizada a través de un boton para editar fotos
+    function tomarFotoEditable() {
+      // Tomar foto usando el dispostivo y recuperando imagen como string base 64
+      navigator.camera.getPicture(exitoCamara, errorCamara, 
+      		{ quality: 20, allowEdit: true, destinationType: tipoDestino.DATA_URL });
+    }
+
+    // Esta funcion sera usada por un botón
+    function obtenerFoto(source) {
+      // Retrieve image file location from specified source
+      navigator.camera.getPicture(exitoFotoURI, errorCamara, 
+      		{ quality: 50, destinationType: tipoDestino.FILE_URI, sourceType: source });
+    }
+
+    // Llamado si sucede algun error al tomar la fotografía
+    function errorCamara(mensaje) {
+      alert(' Causa del error : ' + mensaje);
+    }
+    </script>
+  </head>
+  <body>
+    <button onclick="tomarFoto();">Tomar Foto</button> <br>
+    <button onclick="tomarFotoEditable();">Tomar Foto Editable</button> <br>
+    <button onclick="obtenerFoto(fuenteFoto.PHOTOLIBRARY);">De la Biblioteca</button><br>
+    <button onclick="obtenerFoto(fuenteFoto.SAVEDPHOTOALBUM);">De Albums</button><br>
+    <img style="display:none;width:60px;height:60px;" id="smallImage" src="" />
+    <img style="display:none;" id="largeImage" src="" />
+  </body>
+</html>

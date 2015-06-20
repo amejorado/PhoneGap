@@ -1,0 +1,42 @@
+<html>
+  <head>
+    <title>Ejemplo de Creacion Contactos</title>
+    <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
+    <script type="text/javascript" charset="utf-8">
+
+    // esperando las Apis de PhoneGap
+    document.addEventListener("deviceready", dispositivoListo, false);
+
+    // el dispositivo esta listo para usarse
+    function dispositivoListo() {
+    	// asigno un contacto nuevo 
+        var miContacto = navigator.contacts.create({"displayName": "Usuario Prueba"});
+        miContacto.note = "Escribiendo nota al contacto";
+        alert("El contacto, " + miContacto.displayName + ", note: " + miContacto.note);
+        // definir numeros telefonicos y añadirlos
+        var numerosTelefonicos = [ ];
+        numerosTelefonicos[0] = new ContactField('work', '123-456-7890', false);
+        numerosTelefonicos[1] = new ContactField('mobile', '123-456-7890', true);
+        numerosTelefonicos[2] = new ContactField('home', '123-456-7890', false);
+        miContacto.phoneNumbers = numerosTelefonicos;
+        console.log("Numeros telefonicos = " + numerosTelefonicos);
+        // grabo el contacto
+        miContacto.save( exitoGrabar, errorGrabar);
+    }
+
+	// exito al grabar
+	function exitoGrabar(contacto) { 
+		alert("Grabado exitosamente"); 
+	} 
+	
+	// error al grabar
+	function errorGrabar(error) { 
+		alert("Error = " + error.code); 
+	} 
+    </script>
+  </head>
+  <body>
+    <h1>Ejemplo</h1>
+    <p>Creando Contacto</p>
+  </body>
+</html>

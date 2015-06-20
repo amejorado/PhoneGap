@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+  	<head>
+    	<title>Ejemplo de Almacenamiento</title>
+    	<script type="text/javascript" charset="utf-8" src="cordova.js"></script>
+	    <script type="text/javascript" charset="utf-8">
+		// Preparando el dispositivo
+	    document.addEventListener("deviceready", onDeviceReady, false);
+		// Dispositivo listo
+	    function onDeviceReady() {  
+	        var db = window.openDatabase("Base de Datos Prueba", "1.0", "Archivo Demo", 200000);
+	        db.transaction(poblandoDB, errorDB, exitoDB);
+	    }
+		// Poblando la base de datos
+	    function poblandoDB(tx) {
+	        tx.executeSql('DROP TABLE IF EXISTS DEMO');
+	        tx.executeSql('CREATE TABLE IF NOT EXISTS DEMO (id unique, data)');
+	        tx.executeSql('INSERT INTO DEMO (id, data) VALUES (1, "Primera hilera")');
+	        tx.executeSql('INSERT INTO DEMO (id, data) VALUES (2, "Segunda hilera")');
+	    }
+	    // Error en la transacción
+	    function errorDB(tx, err) {
+	        alert("Error en Base de Datos SQL: " + err);
+	    }
+		// Transacción exitosa
+	    function exitoDB() {
+	        alert("¡Transaccion realizada exitosamente!");
+	    }
+	    </script>
+  	</head>
+  <body>
+    <h1>Ejemplo de uso de Base de Datos</h1>
+  </body>
+</html>

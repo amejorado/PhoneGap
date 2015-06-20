@@ -1,0 +1,14 @@
+<html>	<head>
+		<title>Ubicacion GPS del Dispositivo</title>
+	</head>	<body>
+		<meta charset= "utf-8">		<script type=”text/javascript” charset=”utf-8” src=”cordova.js”>  </script>		<script type=”text/javascript” >
+		    var opciones = { enableHighAccurracy:true};
+			function ubicacionCel() {  // checar la ubicacion				navigator.geolocation.getCurrentPosition(lecturaOk, lecturaNoOK, opciones);
+			}
+			function lecturaOk(posicion) {  // lectura correcta				alert('Posicion : Latitud = ' + posicion.coords,latitude +
+					' Longitud = ' + posicion.coords.longitude);
+			}
+			function lecturaNoOk() {  // problemas al leer				alert("Error al estar leyendo ubicacion del Celular");
+			}
+		</script>		<h1> Ubicacion GPS del dispositivo Movil </h1>
+		<button onclick = “ubicacionCel()”> Mostrar Ubicacion del Cel </button>	</body></html>
